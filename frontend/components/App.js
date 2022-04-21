@@ -27,7 +27,7 @@ export default function App() {
     <Provider store={store}>
       <BrowserRouter>
         <Message />
-        <h1>Advanced State</h1>
+        <h1>TK Advanced State</h1>
         <nav>
           <NavLink id="wheelLink" to="/">Wheel</NavLink>
           <NavLink id="quizLink" to="/quiz">Quiz</NavLink>
