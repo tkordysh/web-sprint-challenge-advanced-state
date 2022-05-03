@@ -10,24 +10,27 @@ export function Form(props) {
 
   const onSubmit = evt => {
     evt.preventDefault();
-    props.postQuiz(props.form.newQuestion, props.form.newTrueAnswer, props.form.newFalseAnswer);
+    props.postQuiz(props.question_text, props.true_answer, props.false_answer);
   }
+
+  const isEnabled = props.question_text.length && props.true_answer.length && props.false_answer.length 
 
   return (
     <form id="form" onSubmit={onSubmit}>
       <h2>Create New Quiz</h2>
-      <input  maxLength={50} onChange={onChange} id="newQuestion" placeholder="Enter question" />
-      <input  maxLength={50} onChange={onChange} id="newTrueAnswer" placeholder="Enter true answer" />
-      <input  maxLength={50} onChange={onChange} id="newFalseAnswer" placeholder="Enter false answer" />
-      <button id="submitNewQuizBtn">Submit new quiz</button>
+      <input value={props.question_text} maxLength={50} onChange={onChange} id="newQuestion" placeholder="Enter question" />
+      <input value={props.true_answer} maxLength={50} onChange={onChange} id="newTrueAnswer" placeholder="Enter true answer" />
+      <input value={props.false_answer} maxLength={50} onChange={onChange} id="newFalseAnswer" placeholder="Enter false answer" />
+      <button id="submitNewQuizBtn" disabled={!isEnabled}>Submit new quiz</button>
     </form>
   )
 }
 
 const mapStateToProps = s => {
   return {
-    form: s.form,
-    infoMessage: s.infoMessage
+    question_text: s.form.newQuestion,
+    true_answer: s.form.newTrueAnswer,
+    false_answer: s.form.newFalseAnswer,
   }
 }
 

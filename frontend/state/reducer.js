@@ -18,7 +18,13 @@ function wheel(state = initialWheelState, action) {
 
 const initialQuizState = null
 function quiz(state = initialQuizState, action) {
-  return state
+  switch(action.type){
+    case types.SET_QUIZ_INTO_STATE:
+      return action.payload
+    default:
+      return state
+  }
+  
 }
 
 const initialSelectedAnswerState = null
@@ -30,7 +36,7 @@ const initialMessageState = ''
 function infoMessage(state = initialMessageState, action) {
   switch (action.type) {
     case types.SET_INFO_MESSAGE:
-      return {  }
+      return action.payload
     default:
       return state
   }

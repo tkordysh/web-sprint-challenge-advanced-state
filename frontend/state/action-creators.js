@@ -24,7 +24,12 @@ export function setMessage(value) {
   }
  }
 
-export function setQuiz() { }
+export function setQuiz(quiz) { 
+  return {
+    type: types.SET_QUIZ_INTO_STATE,
+    payload: quiz
+  }
+}
 
 export function inputChange({ id, value }) {
     return {
@@ -45,6 +50,12 @@ export function fetchQuiz() {
     // First, dispatch an action to reset the quiz state (so the "Loading next quiz..." message can display)
     // On successful GET:
     // - Dispatch an action to send the obtained quiz to its state
+    dispatch(setQuiz(null))
+    axios.get('http://localhost:9000/api/quiz/next')
+      .then(res => {
+        dispatch(setQuiz(res.data))
+      })
+      .catch(err => console.log(err))
   }
 }
 export function postAnswer() {
@@ -62,7 +73,8 @@ export function postQuiz(question_text, true_answer_text, false_answer_text) {
         console.log("res data aka newly created q", res.data)
         //setting the success message would be something like 'congrats, res.data.question is a great q'
         const newlyCreatedQuestion = res.data
-        dispatch({ type: types.SET_QUIZ_INTO_STATE, payload: newlyCreatedQuestion })
+        dispatch(resetForm())
+        dispatch(setMessage(`Congrats: "${question_text}" is a great question!`))
       })
       .catch(err => {
         debugger
