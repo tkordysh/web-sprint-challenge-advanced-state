@@ -13,7 +13,7 @@ export function Form(props) {
     props.postQuiz(props.question_text, props.true_answer, props.false_answer);
   }
 
-  const isEnabled = props.question_text.length && props.true_answer.length && props.false_answer.length 
+  const isEnabled = props.question_text.trim().length && props.true_answer.trim().length && props.false_answer.trim().length 
 
   return (
     <form id="form" onSubmit={onSubmit}>

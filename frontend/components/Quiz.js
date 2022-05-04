@@ -1,16 +1,18 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { fetchQuiz, postAnswer } from "../state/action-creators";
+import { fetchQuiz, postAnswer, selectAnswer } from "../state/action-creators";
 
 export function Quiz(props) {
 
-  const { quiz } = props
+  const { quiz, selected_answer } = props
 
   useEffect(() => {
     if (!props.quiz) {
       props.fetchQuiz();
     }
-  }, [props.quiz]);
+  }, []);
+
+  const isDisabled = !selected_answer
 
   return (
     <div id="wrapper">
@@ -22,9 +24,10 @@ export function Quiz(props) {
             
             <div id="quizAnswers">
               {quiz.answers.map(answer => {
-                return  <div key={answer.answer_id} className="answer selected">
+                const isSelected = selected_answer === answer.answer_id
+                return  <div key={answer.answer_id} className={isSelected ? 'answer selected' : 'answer'}>
                 {answer.text}
-                <button>SELECTED</button>
+                <button onClick={() => props.selectAnswer(answer.answer_id)}>{isSelected ? 'SELECTED' : 'Select'}</button>
               </div>
               })}
              
@@ -35,7 +38,7 @@ export function Quiz(props) {
               </div> */}
             </div>
 
-            <button id="submitAnswerBtn">Submit answer</button>
+            <button id="submitAnswerBtn" disabled={isDisabled} onClick={() => props.postAnswer()}>Submit answer</button>
           </>
         ) : (
           "Loading next quiz..."
@@ -48,7 +51,8 @@ export function Quiz(props) {
 const mapStateToProps = (s) => {
   return {
     quiz: s.quiz,
+    selected_answer: s.selectedAnswer
   };
 };
 
-export default connect(mapStateToProps, { fetchQuiz, postAnswer })(Quiz);
+export default connect(mapStateToProps, { fetchQuiz, postAnswer, selectAnswer })(Quiz);
